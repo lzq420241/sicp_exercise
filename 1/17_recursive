@@ -1,0 +1,14 @@
+(define (even? n)
+  (= (remainder n 2) 0))
+
+(define (double n)
+  (+ n n))
+
+(define (halve n)
+  (/ n 2))
+
+(define (ex_1.17 b counter)
+  (cond ((= counter 0) 0)
+        ((even? counter) (double (ex_1.17 b (halve counter))))
+        (else (+ (ex_1.17 b (- counter 1)) b))
+  ))

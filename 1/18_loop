@@ -1,0 +1,17 @@
+(define (ex_1.18 b n)
+  (ex_1.18_iter b n 0))
+
+(define (even? n)
+  (= (remainder n 2) 0))
+
+(define (double n)
+  (+ n n))
+
+(define (halve n)
+  (/ n 2))
+
+(define (ex_1.18_iter b counter product)
+  (cond ((= counter 0) product)
+        ((even? counter) (ex_1.18_iter (double b) (halve counter) product))
+        (else (ex_1.18_iter b (- counter 1) (+ b product)))
+  ))

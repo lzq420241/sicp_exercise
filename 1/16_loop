@@ -1,0 +1,14 @@
+(define (ex_1.16 b n)
+  (ex_1.16_iter b n 1))
+
+(define (even? n)
+  (= (remainder n 2) 0))
+
+(define (square n)
+  (* n n))
+
+(define (ex_1.16_iter b counter product)
+  (cond ((= counter 0) product)
+        ((even? counter) (ex_1.16_iter (square b) (/ counter 2) product))
+        (else (ex_1.16_iter b (- counter 1) (* b product)))
+  ))

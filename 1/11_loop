@@ -1,0 +1,8 @@
+(define (ex_1.11 n)
+  (ex_1.11_iter 2 1 0 n))
+
+(define (ex_1.11_iter a b c count)
+  (cond ((= count 2) a)
+      ((< count 2) count)
+      (else (ex_1.11_iter (+ a (* b 2) (* c 3)) a b (- count 1))) 
+  ))
