@@ -1,0 +1,26 @@
+#lang sicp
+(#%require (only racket provide))
+(provide product-re)
+(provide product-it)
+
+(define (product-re term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product-re term (next a) next b))))
+
+(define (product-it term a next b)
+  (define (iter a result)
+      (if (> a b)
+      result
+      (iter (next a) (* result (term a)))))
+  (iter a 1))
+
+
+(define (identity x) x)
+(define (inc n) (+ n 1))
+
+(define (factorial n)
+  (product-it identity 1 inc n))
+
+;(factorial 5)

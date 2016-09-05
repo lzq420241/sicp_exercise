@@ -1,0 +1,35 @@
+#lang sicp
+(#%require "base")
+(#%require "find-divisor")
+(#%require "gcd")
+
+(define (filtered-accumulate combiner null-value term a next b filter)
+  (define (iter a result)
+      (if (filter a b)
+          (iter (next a) (combiner result (term a)))
+          result))
+  (iter a null-value))
+
+(define (<= x y) (not (> x y)))
+(define (odd-inc n)
+  (if (< n 2) 2 (next-odd n)))
+(define (check-prime n)
+  (if (prime? n) n 0))
+
+(define (sum term a next b)
+  (filtered-accumulate + 0 term a next b <=))
+
+(define (prime-sum a b)
+  (sum check-prime a odd-inc b))
+
+(prime-sum 1 5)
+
+(define (product term a next b)
+  (filtered-accumulate * 1 term a next b <))
+
+(define (relative-prime-product n)
+  (define (relative-prime x)
+    (if (= 1 (gcd x n)) x 1))
+  (product relative-prime 1 inc n))
+
+(relative-prime-product 8)

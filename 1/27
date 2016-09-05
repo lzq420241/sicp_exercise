@@ -1,0 +1,12 @@
+#lang sicp
+
+(#%require "fermat-test-rigid")
+;(#%require "find-divisor")
+
+(prime? 561)
+(prime? 1105)
+(prime? 1729)
+(prime? 2465)
+(prime? 2821)
+(prime? 6601)
+

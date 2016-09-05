@@ -1,0 +1,35 @@
+#lang sicp
+(#%require (only racket provide))
+(#%require "base")
+(#%require (only racket random))
+(provide prime?)
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m)) m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m)) m))))
+
+(define (fermat-test n)
+  (expmod (+ 1 (random (- n 1))) (- n 1) n))
+
+(define (square-root n)
+  (square-root-iter n 2))
+
+(define (square-root-iter n c)
+  (cond ((> c (/ n 2)) 1)
+        ((= 1 (expmod c 2 n)) 0)
+        (else (square-root-iter n (+ c 1)))))
+
+(define (fast-prime? n)
+  (cond ((= (fermat-test n) 1) (square-root n))
+        (else 0)))
+
+(define (prime? n)
+  (= 1 (fast-prime? n)))
+
+(prime? 561)
+(prime? 6601)
+(prime? 15485863)
+(prime? 29)

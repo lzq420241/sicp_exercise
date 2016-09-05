@@ -1,0 +1,33 @@
+#lang sicp
+(#%require (only racket provide))
+
+(provide cont-frac)
+(provide cont-frac-it)
+(provide find-k)
+
+(define (cont-frac n d k)
+  (define (frac i)
+    (let ((nume (n i))
+          (deno (d i)))
+      (if (< i k)
+          (/ nume (+ deno (frac (+ i 1))))
+          (/ nume deno))))
+  (frac 1))
+
+(define (cont-frac-it n d k)
+  (define (frac i result)
+    (if (> i 1)
+        (frac (dec i)
+              (/ (n (dec i))
+                 (+ (d (dec i)) result)))
+        result))
+  (frac k
+        (/ (n k) (d k))))
+
+
+(define (find-k f t crit)
+  (define (try i)
+    (if (crit t (f i))
+        i
+        (try (inc i))))
+  (try 1))

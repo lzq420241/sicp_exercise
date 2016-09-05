@@ -1,0 +1,35 @@
+#lang sicp
+
+(define (accumulate-re combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate-re combiner
+                            null-value
+                            term (next a) next b))))
+
+(define (accumulate-it combiner null-value term a next b)
+  (define (iter a result)
+      (if (> a b)
+      result
+      (iter (next a) (combiner result (term a)))))
+  (iter a null-value))
+
+(define (product-it term a next b)
+  (accumulate-it * 1 term a next b))
+
+(define (product-re term a next b)
+  (accumulate-re * 1 term a next b))
+
+(define (sum-it term a next b)
+  (accumulate-it + 0 term a next b))
+
+(define (sum-re term a next b)
+  (accumulate-re + 0 term a next b))
+;factorial
+(product-re identity 1 inc 10)
+(product-it identity 1 inc 10)
+
+;sum
+(sum-re identity 1 inc 10)
+(sum-it identity 1 inc 10)

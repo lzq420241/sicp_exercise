@@ -1,0 +1,16 @@
+#lang sicp
+(#%require "continued-fraction")
+
+(define tolerance 0.0001)
+(define target-value 0.6180)
+(define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+
+(define (k-frac k)
+  (cont-frac-it (lambda (i) 1.0)
+                (lambda (i) 1.0)
+                k))
+
+
+(k-frac 10)
+(find-k k-frac target-value close-enough?)
