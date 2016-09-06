@@ -16,11 +16,8 @@
       (iter (next a) (* result (term a)))))
   (iter a 1))
 
-
-(define (identity x) x)
-(define (inc n) (+ n 1))
-
 (define (factorial n)
   (product-it identity 1 inc n))
 
 ;(factorial 5)
+

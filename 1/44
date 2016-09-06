@@ -1,0 +1,18 @@
+#lang sicp
+(define (avg a b c) (/ (+ a b c) 3))
+(define dx 0.00001)
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+(define (repeated f n)
+  (if (> n 1)
+      (compose f (repeated f (dec n)))
+      f))
+
+(define (smooth f n)
+ (repeated (lambda (x) (avg (f (- x dx))
+                            (f x)
+                            (f (+ x dx))))
+           n))
+
+((smooth (lambda (x) (* x x x)) 2) 2)

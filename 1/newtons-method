@@ -1,0 +1,28 @@
+#lang sicp
+(#%require (only racket provide))
+(#%require "fixed-point")
+(#%require "base")
+(provide newtons-method)
+
+(define dx 0.00001)
+(define (deriv g)
+  (lambda (x)
+    (/ (- (g (+ x dx)) (g x))
+       dx)))
+
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x) ((deriv g) x)))))
+
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+
+(define (newtons-method g guess)
+  ;(fixed-point (newton-transform g) guess))
+  (fixed-point-of-transform g newton-transform guess))
+
+(define (sqrt x)
+  (newtons-method (lambda (y) (- (square y) x))
+                  1.0))
+
+;(sqrt 10)

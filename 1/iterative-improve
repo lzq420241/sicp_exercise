@@ -1,0 +1,23 @@
+#lang sicp
+(#%require (only racket provide))
+(#%require "base")
+(provide iterative-improve)
+
+(define (iterative-improve good-enough? improve guess)
+  (if (good-enough? guess)
+      guess
+      (iterative-improve good-enough?
+                         improve
+                         (improve guess))))
+
+(define (average x y)
+  (/ (+ x y) 2))
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (sqrt x)
+  (iterative-improve (lambda (g) (good-enough? g x))
+                     (lambda (g) (average g (/ x g)))
+                     1.0))
+
+;(sqrt 9)

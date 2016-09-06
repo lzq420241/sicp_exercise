@@ -1,0 +1,26 @@
+#lang sicp
+(#%require "fixed-point")
+(#%require "product")
+
+(define max-repeated 100)
+(define (compose f g)
+  (lambda (x) (f (g x))))
+(define (nth-power x n)
+  (if (> n 0)
+      (* x (nth-power x (dec n)))
+      1))
+(define (repeated f n)
+  (if (> n 1)
+      (compose f (repeated f (dec n)))
+      f))
+
+(define (average-damp f)
+  (lambda (x) (average x (f x))))
+
+(define (nth-root x n)
+  (fixed-point ((repeated average-damp
+                          (/ (log n) (log 2)))
+                (lambda (y) (/ x (nth-power y (dec n)))))
+                             1.0))
+
+(nth-root 256 7)

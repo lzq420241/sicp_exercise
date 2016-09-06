@@ -1,25 +1,28 @@
 #lang sicp
 (#%require (only racket provide))
 
-(provide cont-frac)
+(provide cont-frac-re)
 (provide cont-frac-it)
 (provide find-k)
 
-(define (cont-frac n d k)
+;@f function for denominator calculate
+;@n numerate generator
+;@d denominator generator
+(define (cont-frac-re f n d k)
   (define (frac i)
     (let ((nume (n i))
           (deno (d i)))
       (if (< i k)
-          (/ nume (+ deno (frac (+ i 1))))
+          (/ nume (f deno (frac (+ i 1))))
           (/ nume deno))))
   (frac 1))
 
-(define (cont-frac-it n d k)
+(define (cont-frac-it f n d k)
   (define (frac i result)
     (if (> i 1)
         (frac (dec i)
               (/ (n (dec i))
-                 (+ (d (dec i)) result)))
+                 (f (d (dec i)) result)))
         result))
   (frac k
         (/ (n k) (d k))))
