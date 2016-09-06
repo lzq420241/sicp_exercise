@@ -6,7 +6,12 @@
   (define sector (/ (- b a) n))
   (define (next x) (+ x (* 2 sector)))
   (define (s first-inc) (sum-it f (+ a first-inc) next b))
-  (* (+ a (* 4 (s sector)) (- (* 2 (s (* 2 sector))) b)) (/ sector 3.00)))
+  (* (+ a (* 4 (s sector))
+        (- (* 2
+              (s (* 2 sector)))
+           b))
+     (/ sector 3.0)))
 
 (simpson-rule cube 0 1 20)
 
+(simpson-rule cube 3 4 10000)
