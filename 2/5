@@ -1,0 +1,27 @@
+#lang sicp
+(#%require "../1/base")
+(#%require "../1/continued-fraction")
+
+(define (cons x y)
+  (let ((a (fast-expt 2 x))
+        (b (fast-expt 3 y)))
+        (* a b)))
+
+
+(define (divides? a b)
+ (not (= (remainder a b) 0)))
+
+(define (car z)
+  (dec (find-k (lambda (i) (fast-expt 2 i))
+               z
+               divides?))) 
+
+(define (cdr z)
+  (dec (find-k (lambda (i) (fast-expt 3 i))
+               z
+               divides?)))
+
+(= (car (cons 3 2)) 3)
+(= (cdr (cons 3 2)) 2)
+(= (car (cons 4 4)) 4)
+(= (cdr (cons 4 4)) 4)

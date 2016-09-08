@@ -1,0 +1,27 @@
+#lang sicp
+
+(#%require "segment")
+
+(define (diameter r)
+  (let ((w (width r))
+        (h (height r)))
+    (* (+ w h) 2)))
+
+(define (area r)
+  (let ((w (width r))
+        (h (height r)))
+    (* w h)))
+
+(define (make-rect p w h)
+  (cons p (cons w h)))
+
+(define (width r)
+  (car (cdr r)))
+
+(define (height r)
+  (cdr (cdr r)))
+
+(define p (make-point 1 2))
+(define r (make-rect p 4 5))
+(diameter r)
+(area r)

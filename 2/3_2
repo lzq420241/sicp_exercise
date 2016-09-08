@@ -1,0 +1,33 @@
+#lang sicp
+
+(#%require "segment")
+
+(define (diameter r)
+  (let ((w (width r))
+        (h (height r)))
+    (* (+ w h) 2)))
+
+(define (area r)
+  (let ((w (width r))
+        (h (height r)))
+    (* w h)))
+
+(define (make-rect p1 p2)
+  (cons p1 p2))
+
+(define (width r)
+  (let ((p1x (x-point p1))
+        (p2x (x-point p2)))
+    (abs (- p1x p2x))))
+
+(define (height r)
+  (let ((p1y (y-point p1))
+        (p2y (y-point p2)))
+    (abs (- p1y p2y))))
+
+(define p1 (make-point 1 2))
+(define p2 (make-point 4 5))
+(define r (make-rect p1 p2))
+  
+(diameter r)
+(area r)
