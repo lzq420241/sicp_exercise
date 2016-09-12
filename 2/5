@@ -23,5 +23,7 @@
 
 (= (car (cons 3 2)) 3)
 (= (cdr (cons 3 2)) 2)
+(= (car (cons 1 2)) 1)
+(= (cdr (cons 3 0)) 0)
 (= (car (cons 4 4)) 4)
 (= (cdr (cons 4 4)) 4)

@@ -4,6 +4,7 @@
 (provide cube)
 (provide divides?)
 (provide even?)
+(provide average)
 (provide next-odd)
 (provide fast-expt)
 
@@ -18,6 +19,8 @@
 
 (define (even? n)
   (divides? 2 n))
+
+(define (average x y) (/ (+ x y) 2))
 
 (define (next-odd n)
   (if (even? n) (+ n 1) (+ n 2)))
