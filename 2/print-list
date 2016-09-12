@@ -1,0 +1,16 @@
+#lang sicp
+(#%require (only racket provide))
+(provide print-list)
+
+(define (print-list items)
+  (newline)
+  (display "(")
+  (define (print-list-iter i)
+    (if (not (equal? nil i))
+        (cond ((null? (cdr i)) (display (car i)))
+              (else (display (car i))
+                    (display " ")
+                    (print-list-iter (cdr i))))))
+  (print-list-iter items)
+  (display ")"))
+ 

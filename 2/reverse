@@ -1,0 +1,33 @@
+#lang sicp
+
+(define (list-ref items n)
+  (if (= n 0)
+      (car items)
+      (list-ref (cdr items) (- n 1))))
+
+(define (length items)
+  (if (null? items)
+      0
+      (+ 1 (length (cdr items)))))
+
+; exercise 2.18
+(define (reverse items)
+  (define (reverse-iter l)
+    (if (= l 1)
+        (cons (car items) nil)
+        (cons (list-ref items (dec l)) (reverse-iter (dec l)))))
+  (reverse-iter (length items)))
+
+(define (reverse2 items)
+  (define (iter things answer)
+    (if (null? things)
+        answer
+        (iter (cdr things) 
+              (cons (car things)
+                    answer))))
+  (iter items nil))
+
+(reverse (list 23 72 149 34))
+(reverse2 (list 23 72 149 34))
+(list 23 72 149 34)
+             
