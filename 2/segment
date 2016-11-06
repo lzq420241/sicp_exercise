@@ -40,3 +40,4 @@
 (define p1 (make-point 1 2))
 (define p2 (make-point 5 4))
 ;(print-point (midpoint-segment (make-segment p1 p2)))
+
