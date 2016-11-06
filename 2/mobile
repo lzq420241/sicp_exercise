@@ -1,0 +1,55 @@
+#lang sicp
+
+(define (make-mobile left right)
+  (list left right))
+
+(define (make-branch length structure)
+  (list length structure))
+
+(define (left-branch mobile)
+  (car mobile))
+
+(define (right-branch mobile)
+  (cadr mobile))
+
+(define (branch-length branch)
+  (car branch))
+
+(define (branch-structure branch)
+  (cadr branch))
+
+(define (branch-weight branch)
+  (let ((s (branch-structure branch)))
+    (if (pair? s)
+        (mobile-weight s)
+        s)))
+
+(define (branch-moment branch)
+  (* (branch-length branch) (branch-weight branch)))
+
+(define (branch-balance? branch)
+  (let ((s (branch-structure branch)))
+    (if (pair? s)
+        (mobile-balance? s)
+        true)))
+
+(define (mobile-weight mobile)
+  (+ (branch-weight (left-branch mobile))
+     (branch-weight (right-branch mobile))))
+
+(define (mobile-balance? mobile)
+  (let ((lb (left-branch mobile))
+        (rb (right-branch mobile)))
+    (and (branch-balance? lb) (branch-balance? rb)
+         (= (branch-moment lb) (branch-moment rb)))))
+
+
+(define lb1 (make-branch 3 8))
+(define rb1 (make-branch 4 6))
+(define m1 (make-mobile lb1 rb1))
+
+(define lb2 (make-branch 6 m1))
+(define rb2 (make-branch 7 12))
+(define m2 (make-mobile lb2 rb2))
+(mobile-weight m2)
+(mobile-balance? m2)

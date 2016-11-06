@@ -1,0 +1,53 @@
+#lang sicp
+
+(define bl (make-vect 0 0))
+(define br (make-vect 1 0))
+(define tl (make-vect 0 1))
+(define tr (make-vect 1 1))
+
+(define bs (make-segment bl br))
+(define ls (make-segment tl bl))
+(define rs (make-segment br tr))
+(define ts (make-segment tr tl))
+
+(define border-list (list bs rs ts ls))
+(define (border-painter frame) ((segments->painter border-list) frame))
+
+(define bltrs (make-segment bl tr))
+(define tlbrs (make-segment tl br))
+(define (cross-painter frame) ((segments->painter (list bltrs tlbrs)) frame))
+
+; maybe we can draw close loop shape with this
+;(define (make-segments vectors))
+
+(define (mid-segment seg)
+    (scale-vect 0.5
+                (add-vect (start-segment seg)
+                          (end-segment seg))))
+
+(define s1 (make-segment (mid-segment bs) (mid-segment rs)))
+(define s2 (make-segment (mid-segment rs) (mid-segment ts)))
+(define s3 (make-segment (mid-segment ts) (mid-segment ls)))
+(define s4 (make-segment (mid-segment ls) (mid-segment bs)))
+(define rhombus-list (list s1 s2 s3 s4))
+(define (rhombus-painter frame) ((segments->painter rhombus-list) frame))
+
+; http://www.biwascheme.org/demo/pictlang.html
+($line (make-vect 0.4 1.0) (make-vect 0.35 0.85) (make-vect 0.4 0.65) (make-vect 0.25 0.65) (make-vect 0.15 0.6) (make-vect 0.0 0.85))
+
+; 右上部
+($line (make-vect 0.6 1.0) (make-vect 0.65 0.85) (make-vect 0.6 0.65) (make-vect 0.75 0.65) (make-vect 1.0 0.3))
+
+; 左下部
+($line (make-vect 0.0 0.65) (make-vect 0.15 0.35) (make-vect 0.25 0.6) (make-vect 0.35 0.5) (make-vect 0.25 0.0))
+
+; 笑脸
+($line (make-vect 0.425 0.85) (make-vect 0.45 0.9) (make-vect 0.475 0.85))
+($line (make-vect 0.525 0.85) (make-vect 0.55 0.9) (make-vect 0.575 0.85))
+($line (make-vect 0.475 0.75) (make-vect 0.525 0.75))
+
+; 右下部
+($line (make-vect 1.0 0.15) (make-vect 0.6 0.5) (make-vect 0.75 0.0))
+
+; 内侧
+($line (make-vect 0.6 0.0) (make-vect 0.5 0.3) (make-vect 0.4 0.0))

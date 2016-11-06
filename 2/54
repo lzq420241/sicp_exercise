@@ -1,0 +1,14 @@
+#lang sicp
+
+(define (equal? x y)
+  (cond ((and (null? x) (null? y)) true)
+        ((or (null? x) (null? y)) false)
+        (else (and (eq? (car x) (car y))
+                   (equal? (cdr x) (cdr y))))))
+
+
+(equal? '(this is a list) '(this is a list))
+
+(equal? '(this is a list) '(this (is a) list))
+
+(equal? '(a) '())

@@ -1,0 +1,34 @@
+#lang sicp
+(#%require "accumulate-n")
+
+(define fold-right accumulate)
+
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+    (if (null? rest)
+        result
+        (iter (op result (car rest))
+              (cdr rest))))
+  (iter initial sequence))
+
+(fold-right / 1 (list 1 2 3))
+(fold-left / 1 (list 1 2 3))
+(display (fold-right cons nil (list 1 2 3)))
+(newline)
+(display (fold-left list nil (list 1 2 3)))
+(newline)
+
+; exercise 2.39
+(define (append list1 list2)
+  (if (null? list1)
+      list2
+      (cons (car list1) (append (cdr list1) list2))))
+
+(define (r-reverse sequence)
+  (fold-right (lambda (x y) (append y (list x))) nil sequence))
+(define (l-reverse sequence)
+  (fold-left (lambda (x y) (cons y x)) nil sequence))
+
+(display (r-reverse (list 1 2 3)))
+(newline)
+(display (l-reverse (list 1 2 3)))
