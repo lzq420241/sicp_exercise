@@ -26,8 +26,7 @@
 
 (define set1 (list 1 2 3))
 (define set2 (list 2 3 4))
-(display (union-set set1 set2))
+(display (union-set set2 set1))
 ;(display (adjoin-set 4 set1))
 (newline)
 ;(display (intersection-set set1 set2))
-
