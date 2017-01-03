@@ -1,0 +1,27 @@
+#lang sicp
+(#%require "usr_lib.rkt")
+(#%require (only racket provide))
+(#%require "complex-package.rkt")
+(provide make-real)
+(provide install-real-package)
+
+(define (install-real-package)
+  (define (tag x)
+    (attach-tag 'real x))    
+  (put 'add '(real real)
+       (lambda (x y) (tag (+ x y))))
+  (put 'sub '(real real)
+       (lambda (x y) (tag (- x y))))
+  (put 'mul '(real real)
+       (lambda (x y) (tag (* x y))))
+  (put 'div '(real real)
+       (lambda (x y) (tag (/ x y))))
+  (put 'make 'real
+       (lambda (x) (tag x)))
+  (put 'raise '(real)
+       (lambda (r) (make-complex-from-real-imag r 0)))
+  'real-install-done)
+
+;(install-real-package)
+(define (make-real n)
+  ((get 'make 'real) n))
