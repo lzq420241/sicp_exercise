@@ -1,6 +1,9 @@
 #lang sicp
 (#%require "usr_lib.rkt")
 (#%require (only racket provide))
+(#%require "real-package.rkt")
+(provide install-rational-package)
+(provide make-rational)
 
 (define (install-rational-package)
   ;; internal procedures
@@ -36,8 +39,11 @@
   
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d))))
+
+  (put 'raise '(rational)
+       (lambda (r) (make-real (/ (numer r) (denom r)))))
   'rational-install-done)
 (define (make-rational n d)
   ((get 'make 'rational) n d))
 
-(install-rational-package)
+

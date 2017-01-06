@@ -1,12 +1,21 @@
 #lang sicp
 (#%require "usr_lib.rkt")
 (#%require (only racket provide))
-(provide apply-generic)
-(provide get)
 (provide make-complex-from-real-imag)
-
+(provide install-complex-package)
 
 (define (square n) (* n n))
+
+; simple version apply-generic to release the requirement
+; that usr_lib need to provide apply-generic
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+          (apply proc (map contents args))
+          (error
+            "No method for these types -- APPLY-GENERIC"
+            (list op type-tags))))))
 
 (define (install-rectangular-package)
   ;; internal procedures
@@ -58,6 +67,8 @@
 
 (define (install-complex-package)
   ;; imported procedures from rectangular and polar packages
+  (install-rectangular-package)
+  (install-polar-package)
   (define (make-from-real-imag x y)
     ((get 'make-from-real-imag 'rectangular) x y))
   (define (make-from-mag-ang r a)
@@ -102,9 +113,9 @@
        (lambda (z) (tag (magnitude z))))
   'complex-install-done)
 
-(install-rectangular-package)
-(install-polar-package)
-(install-complex-package)
+;(install-rectangular-package)
+;(install-polar-package)
+;(install-complex-package)
 
 (define (make-complex-from-real-imag x y)
   ((get 'make-from-real-imag 'complex) x y))
