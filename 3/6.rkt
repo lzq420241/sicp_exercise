@@ -13,10 +13,10 @@
       (begin (set! x (rand-update x)) x))
     (define (dispatch m)
       (cond ((eq? m 'generate) (generate))
-          ((eq? m 'reset) reset)
-          (else (error "Unknown request: 
+            ((eq? m 'reset) reset)
+            (else (error "Unknown request:
                  MAKE-ACCOUNT" m))))
-  dispatch))
+    dispatch))
 
 (rand 'generate)
 (rand 'generate)
