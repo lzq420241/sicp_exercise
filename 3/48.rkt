@@ -1,0 +1,66 @@
+#lang sicp
+(#%require (only racket error))
+(#%require "serializer_lib.rkt")
+
+(define gid 0)
+(define gid-serializer (make-serializer))
+
+(define (make-account-and-serializer balance)
+  (let ((account-id 0))
+    (define (withdraw amount)
+      (if (>= balance amount)
+          (begin (set! balance (- balance amount))
+                 balance)
+          "Insufficient funds"))
+    (define (deposit amount)
+      (set! balance (+ balance amount))
+      balance)
+    (define (get-id)
+      (if (= account-id 0)
+          (begin (set! gid (inc gid)) (set! account-id gid)))
+      account-id)
+    (let ((balance-serializer (make-serializer)))
+      (define (dispatch m)
+        (cond ((eq? m 'withdraw) withdraw)
+              ((eq? m 'deposit) deposit)
+              ((eq? m 'get-id) get-id)
+              ((eq? m 'balance) balance)
+              ((eq? m 'serializer) balance-serializer)
+              (else (error "Unknown request -- MAKE-ACCOUNT"
+                           m))))
+      dispatch)))
+
+(define (deposit account amount)
+  (let ((s (account 'serializer))
+        (d (account 'deposit)))
+    ((s d) amount)))
+
+(define (withdraw account amount)
+  (let ((s (account 'serializer))
+        (w (account 'withdraw)))
+    ((s w) amount)))
+
+(define (get-id account)
+  (let ((g (account 'get-id)))
+    ((gid-serializer g))))
+
+(define (exchange account1 account2)
+  (let ((difference (- (account1 'balance)
+                       (account2 'balance))))
+    (withdraw account1 difference)
+    (deposit account2 difference)))
+
+(define (serialized-exchange account1 account2)
+  (let ((serializer1 (account1 'serializer))
+        (serializer2 (account2 'serializer)))
+    (if (< (get-id account2) (get-id account1))
+        ((serializer1 (serializer2 exchange))
+         account1
+         account2)
+        ((serializer2 (serializer1 exchange))
+         account1
+         account2))))
+
+(define acc1 (make-account-and-serializer 100))
+(get-id acc1)
+(deposit acc1 20)
