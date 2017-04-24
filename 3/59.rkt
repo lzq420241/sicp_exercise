@@ -1,9 +1,6 @@
 #lang sicp
 (#%require "50.rkt")
 
-(define (add-streams s1 s2)
-  (stream-map + s1 s2))
-
 (define (div-streams s1 s2)
   (stream-map / s1 s2))
 

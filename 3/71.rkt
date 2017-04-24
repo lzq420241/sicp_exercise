@@ -1,0 +1,38 @@
+#lang sicp
+(#%require "stream_lib.rkt")
+(#%require "70.rkt")
+
+(define (cubeweight p)
+  (let ((i (car p))
+        (j (cadr p)))
+    (+ (* i i i) (* j j j))))
+
+(define (squareweight p)
+  (let ((i (car p))
+        (j (cadr p)))
+    (+ (* i i) (* j j))))
+
+(define (Ramanujan-number s)
+  (let ((s0 (stream-ref s 0))
+        (s1 (stream-ref s 1))
+        (s2 (stream-ref s 2)))
+    (cond ((= (cubeweight s0) (cubeweight s1))
+           (cons-stream (append (append s0 s1) (list (cubeweight s1)))
+                        (Ramanujan-number (stream-cdr s))))
+          ((= (cubeweight s1) (cubeweight s2))
+           (cons-stream (append (append s1 s2) (list (cubeweight s1)))
+                        (Ramanujan-number (stream-cdr (stream-cdr s)))))
+          (else (Ramanujan-number (stream-cdr (stream-cdr s)))))))
+
+(define (Squaresum-number s)
+  (let ((s0 (stream-ref s 0))
+        (s1 (stream-ref s 1))
+        (s2 (stream-ref s 2)))
+    (if (and (= (squareweight s0) (squareweight s1)) (= (squareweight s2) (squareweight s1)))
+           (cons-stream (append (append s0 s1 s2) (list (squareweight s1)))
+                        (Squaresum-number (stream-cdr (stream-cdr (stream-cdr s)))))
+          (Squaresum-number (stream-cdr s)))))
+
+;(display-stream  (Ramanujan-number (pairs integers integers cubeweight)))
+;(display-stream (pairs integers integers cubeweight))
+(display-stream  (Squaresum-number (pairs integers integers squareweight)))
